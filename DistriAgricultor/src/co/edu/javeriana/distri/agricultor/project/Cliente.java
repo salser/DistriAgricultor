@@ -10,5 +10,5 @@ package co.edu.javeriana.distri.agricultor.project;
  * @author Henry Salazar
  */
 public class Cliente {
-    
+    // TODO es el GUI
 }

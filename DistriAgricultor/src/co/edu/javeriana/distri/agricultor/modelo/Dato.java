@@ -9,7 +9,19 @@ package co.edu.javeriana.distri.agricultor.modelo;
  *
  * @author Henry Salazar
  */
-public class Agricultor {
+public class Dato {
     private long id;
     private String nombre;
+    private String descripción;
+
+    public Dato(long id, String nombre, String descripción) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripción = descripción;
+    }
+
+    public Dato() {
+    }
+    
+    
 }
