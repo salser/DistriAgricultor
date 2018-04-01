@@ -33,80 +33,28 @@ public class EscribirArchivo {
 
     public void agregarInformacion() {
 
-        System.out.println("Escribiendo archivo.");
+        System.out.println("Ingrese informacion. Presione ctrl + z al finalizar");
 
         Informacion info = new Informacion();
 
-        try {
-            info.setTipoInfo("Prediccion Clima");
-            info.setCultivo("Maiz");
-            info.setInformacion("info1");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Insumos");
-            info.setCultivo("Frijol");
-            info.setInformacion("info2");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Productos");
-            info.setCultivo("Papa");
-            info.setInformacion("info3");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Prediccion Clima");
-            info.setCultivo("Maiz");
-            info.setInformacion("info4");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Insumos");
-            info.setCultivo("Zanahoria");
-            info.setInformacion("info5");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Productos");
-            info.setCultivo("Trigo");
-            info.setInformacion("info6");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Prediccion Clima");
-            info.setCultivo("Soya");
-            info.setInformacion("info7");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Insumos");
-            info.setCultivo("Mango");
-            info.setInformacion("info8");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-            info.setTipoInfo("Precios Productos");
-            info.setCultivo("Arroz");
-            info.setInformacion("info9");
-
-            output.format("%s %s %s %s\n", info.getFechaInfo(), info.getTipoInfo(),
-                    info.getCultivo(), info.getInformacion());
-
-        } catch (FormatterClosedException fce) {
-            System.err.println("Error escribiendo archivo.");
-            return;
-        } catch (NoSuchElementException nse) {
-            System.err.println("Input invalido. Intente de nuevo.");
-            input.nextLine();
+        while (input.hasNext()) {
+            System.out.printf( "%s\n%s",
+				"Digite tipo de informacion, cultivo, informacion.",
+				"? " );
+            try {
+                info.setTipoInfo(input.next());
+                info.setCultivo(input.next());
+                info.setInformacion(input.next());
+                
+                output.format("%s %s %s %s", info.getFechaInfo(), info.getTipoInfo(),
+                        info.getCultivo(), info.getInformacion());
+            } catch (FormatterClosedException fce) {
+                System.err.println("Error escribiendo archivo.");
+                return;
+            } catch (NoSuchElementException nse) {
+                System.err.println("Input invalido. Intente de nuevo.");
+                input.nextLine();
+            }
         }
 
     }
