@@ -37,7 +37,7 @@ public class Informacion {
     public final void setFechaInfo() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_hh:mm_aaa");
         this.fechaInfo = sdf.format(cal.getTime());
     }
 
