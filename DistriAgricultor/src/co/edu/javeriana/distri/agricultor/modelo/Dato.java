@@ -20,8 +20,30 @@ public class Dato {
         this.descripción = descripción;
     }
 
-    public Dato() {
+    public Dato() { this(0, "nombre Dato", "descripcion Dato"); }
+
+    public long getId() {
+        return id;
     }
-    
-    
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripción() {
+        return descripción;
+    }
+
+    public void setDescripción(String descripción) {
+        this.descripción = descripción;
+    }
+       
 }
