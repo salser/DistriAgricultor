@@ -10,12 +10,5 @@ package co.edu.javeriana.distri.agricultor.comunicacion;
  * @author Henry Salazar
  */
 public class DistriAgricultor {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
     
 }
