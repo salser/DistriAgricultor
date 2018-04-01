@@ -36,7 +36,7 @@ public class Servidor {
         this.agricultor = new Agricultor();
         this.dato = new Dato();
         try {
-            this.serverSocket = new DatagramSocket(11001);
+            this.serverSocket = new DatagramSocket(1101);
         } catch (SocketException ex) {
             System.out.println("error abriendo socket servidor");
         }
