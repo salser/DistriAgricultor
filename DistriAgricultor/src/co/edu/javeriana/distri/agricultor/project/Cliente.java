@@ -42,17 +42,6 @@ public class Cliente {
 
     public static void main(String args[]) throws UnknownHostException, IOException {
         startMenu();
-
-        Scanner input = new Scanner(System.in);
-        System.out.println("mensaje: ");
-        String msj = input.nextLine();
-        byte[] sendData = new byte[SEND_DATA];
-        byte[] receiveData = new byte[RECIEVE_DATA];
-        sendData = msj.getBytes();
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(HOST), PORT);
-        Cliente cliente = new Cliente();
-        cliente.clientSocket.send(sendPacket);
-
     }
 
     private static void printMenu() {
@@ -62,26 +51,41 @@ public class Cliente {
         System.out.println("4. Salir");
     }
 
-    private static void startMenu() {
+    private static void startMenu() throws IOException {
         printMenu();
         Scanner input = new Scanner(System.in);
         int opcion = input.nextInt();
         while (4 != opcion) {
             switch (opcion) {
-                case 1: // TODO ver temas subscribirse
+                case 1:
+                    subscribeTopics();
                     printMenu();
+                    input.nextInt();
                     break;
                 case 2: //TODO agregar dato
                     printMenu();
+                    input.nextInt();
                     break;
                 case 3: // Ver estadisticas de los tópicos subscrito
                     printMenu();
+                    input.nextInt();
                     break;
                 default:
                     System.out.println("No es una opción");
                     printMenu();
+                    input.nextInt();
                     break;
             }
         }
+    }
+
+    private static void subscribeTopics() throws IOException {
+        String msj = "topics";
+        byte[] sendData = new byte[SEND_DATA];
+        byte[] receiveData = new byte[RECIEVE_DATA];
+        sendData = msj.getBytes();
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(HOST), PORT);
+        Cliente cliente = new Cliente();
+        cliente.clientSocket.send(sendPacket);
     }
 }
