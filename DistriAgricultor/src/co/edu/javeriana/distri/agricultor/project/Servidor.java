@@ -7,7 +7,7 @@ package co.edu.javeriana.distri.agricultor.project;
 
 import co.edu.javeriana.distri.agricultor.modelo.Agricultor;
 import co.edu.javeriana.distri.agricultor.modelo.Dato;
-import co.edu.javeriana.distri.agricultor.utils.UtilsAgricultor;
+import co.edu.javeriana.distri.agricultor.utils.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -58,7 +58,10 @@ public class Servidor {
         while (true) {
             try {
                 DatagramPacket paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
-
+                
+                // LEER ARCHIVO DE INFORMACION
+                (new Thread(new LeerArchivo())).start();
+                
                 serverSocket.receive(paqueteRecibe);
                 byte[] receiveData = new byte[RECIEVE_DATA];
                 receiveData = paqueteRecibe.getData();
