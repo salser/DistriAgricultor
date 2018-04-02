@@ -13,12 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.SocketException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.*;
 
 /**
  *
@@ -35,6 +30,9 @@ public class Servidor {
     public static final String HOST = "127.0.0.1";
     public static final int PORT = 2020;
     private static final String TOPICS = "topics";
+    private static final String TOPIC1 = "topico1";
+    private static final String TOPIC2 = "topico2";
+    private static final String TOPICS_STRING = TOPIC1 + "," + TOPIC2;
 
     public Servidor(int datosEnvio, int datosRecibir) {
         this.agricultor = new Agricultor();
@@ -59,17 +57,34 @@ public class Servidor {
                 DatagramPacket paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
 
                 serverSocket.receive(paqueteRecibe);
-                String message = new String(paqueteRecibe.getData());
-                System.out.println("message: " +  message);
-                switch(message){
-                    case TOPICS:
+                byte[] receiveData = new byte[RECIEVE_DATA];
+                receiveData = paqueteRecibe.getData();
+                String message = new String(receiveData);
+                if (message.contains(TOPICS)) {
+                    System.out.println("Entro a topics");
+                    InetAddress ipClient = paqueteRecibe.getAddress();
+                    int port = paqueteRecibe.getPort();
+                    byte[] sendData = new byte[SEND_DATA];
+                    sendData = TOPICS_STRING.getBytes();
+                    DatagramPacket envia = new DatagramPacket(sendData, sendData.length, ipClient, port);
+                    serverSocket.send(envia);
+                    paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
+
+                    serverSocket.receive(paqueteRecibe);
+                    receiveData = new byte[RECIEVE_DATA];
+                    receiveData = paqueteRecibe.getData();
+                    String topic = new String(receiveData);
+                    if (topic.contains(TOPIC1)) {
+                        System.out.println("topic1");
+                        // GUARDAR CLIENTE TOPICO 1
+                    } else if (topic.contains(TOPIC2)) {
+                        System.out.println("topic2");
+                        // GUARDAR CLIENTE TOPICO 2
+                    }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-
-    
 
 }
