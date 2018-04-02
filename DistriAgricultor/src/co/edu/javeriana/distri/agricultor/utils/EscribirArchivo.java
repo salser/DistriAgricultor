@@ -15,6 +15,9 @@ import java.util.*;
 /**
  *
  * @author Carlos E Quimbay
+ * 
+ * para ejecutar hilo desde Main
+ * (new Thread(new CrearInformacion())).start();
  */
 public class EscribirArchivo {
 
