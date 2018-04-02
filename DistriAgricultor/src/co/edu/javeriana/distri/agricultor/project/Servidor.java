@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -33,6 +34,8 @@ public class Servidor {
     private static final String TOPIC1 = "topico1";
     private static final String TOPIC2 = "topico2";
     private static final String TOPICS_STRING = TOPIC1 + "," + TOPIC2;
+    
+    private static final String DATA_CREATE = "dataCreate";
 
     public Servidor(int datosEnvio, int datosRecibir) {
         this.agricultor = new Agricultor();
@@ -61,7 +64,6 @@ public class Servidor {
                 receiveData = paqueteRecibe.getData();
                 String message = new String(receiveData);
                 if (message.contains(TOPICS)) {
-                    System.out.println("Entro a topics");
                     InetAddress ipClient = paqueteRecibe.getAddress();
                     int port = paqueteRecibe.getPort();
                     byte[] sendData = new byte[SEND_DATA];
@@ -76,10 +78,34 @@ public class Servidor {
                     String topic = new String(receiveData);
                     if (topic.contains(TOPIC1)) {
                         System.out.println("topic1");
-                        // GUARDAR CLIENTE TOPICO 1
+                        // TODO GUARDAR CLIENTE TOPICO 1
                     } else if (topic.contains(TOPIC2)) {
                         System.out.println("topic2");
-                        // GUARDAR CLIENTE TOPICO 2
+                        // TODO GUARDAR CLIENTE TOPICO 2
+                    }
+                }else if(message.contains(DATA_CREATE)){
+                    InetAddress ipClient = paqueteRecibe.getAddress();
+                    int port = paqueteRecibe.getPort();
+                    byte[] sendData = new byte[SEND_DATA];
+                    sendData = TOPICS_STRING.getBytes();
+                    DatagramPacket envia = new DatagramPacket(sendData, sendData.length, ipClient, port);
+                    serverSocket.send(envia);
+                    paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
+
+                    serverSocket.receive(paqueteRecibe);
+                    receiveData = new byte[RECIEVE_DATA];
+                    receiveData = paqueteRecibe.getData();
+                    String dataCreate = new String(receiveData);
+                    StringTokenizer st = new StringTokenizer(dataCreate, "-");
+                    String topic = st.nextToken().trim();
+                    String cultivo = st.nextToken().trim();
+                    String fecha = st.nextToken().trim();
+                    String tipo = st.nextToken().trim();
+                    String info = st.nextToken();
+                    if(topic.contains(TOPIC1)){
+                        // TODO AGREGAR INFORMACIÓN EN EL TOPICO1
+                    }else if(topic.contains(TOPIC2)){
+                        // TODO AGREGAR INFORMACIÓN EN EL TOPICO2
                     }
                 }
             } catch (IOException ex) {
