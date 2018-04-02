@@ -12,6 +12,9 @@ import java.util.*;
 /**
  *
  * @author Carlos E Quimbay
+ * 
+ * para ejecutar hilo desde Main
+ * (new Thread(new LeerInformacion())).start();
  */
 public class LeerArchivo {
 
