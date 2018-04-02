@@ -61,6 +61,9 @@ public class Servidor {
                 System.out.println("message: " + new String(paqueteRecibe.getData()) + "");
                 // Agricultor agricultor = (Agricultor) UtilsAgricultor.deserialize(paqueteRecibe.getData());
                 // TODO hacer inserción agricultor a la DB con el tema escogido
+                if(paqueteRecibe.getData().toString().equalsIgnoreCase("Cultivos")){
+                    System.out.println("Creaando cultivos");
+                }
             } catch (IOException ex) {
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
