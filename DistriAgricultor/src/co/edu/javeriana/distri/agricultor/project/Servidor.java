@@ -34,6 +34,7 @@ public class Servidor {
     private static final int RECIEVE_DATA = 1024;
     public static final String HOST = "127.0.0.1";
     public static final int PORT = 2020;
+    private static final String TOPICS = "topics";
 
     public Servidor(int datosEnvio, int datosRecibir) {
         this.agricultor = new Agricultor();
@@ -58,9 +59,11 @@ public class Servidor {
                 DatagramPacket paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
 
                 serverSocket.receive(paqueteRecibe);
-                System.out.println("message: " + new String(paqueteRecibe.getData()) + "");
-                // Agricultor agricultor = (Agricultor) UtilsAgricultor.deserialize(paqueteRecibe.getData());
-                // TODO hacer inserción agricultor a la DB con el tema escogido
+                String message = new String(paqueteRecibe.getData());
+                System.out.println("message: " +  message);
+                switch(message){
+                    case TOPICS:
+                }
             } catch (IOException ex) {
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }

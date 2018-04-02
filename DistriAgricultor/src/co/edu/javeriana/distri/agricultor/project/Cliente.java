@@ -25,6 +25,7 @@ public class Cliente {
     public static final int PORT = 2020;
     private static final int SEND_DATA = 1024;
     private static final int RECIEVE_DATA = 1024;
+    private static final String TOPICS = "topics";
 
     DatagramSocket clientSocket;
     InetAddress IPAddress;
@@ -80,7 +81,7 @@ public class Cliente {
     }
 
     private static void subscribeTopics() throws IOException {
-        String msj = "topics";
+        String msj = TOPICS;
         byte[] sendData = new byte[SEND_DATA];
         byte[] receiveData = new byte[RECIEVE_DATA];
         sendData = msj.getBytes();
