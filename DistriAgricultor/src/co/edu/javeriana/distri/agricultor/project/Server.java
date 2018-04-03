@@ -34,7 +34,7 @@ public class Server {
         topicsAux.add(INSUMOS);
         topicsAux.add(PRECIOS);
         dat.setTopicos(topicsAux);
-        Map<String, List<Socket>> top_cli = new HashMap<String, List<Socket>>();
+        Map<String, List<String>> top_cli = new HashMap<String, List<String>>();
         for (String topic : topicsAux) {
             top_cli.put(topic, new ArrayList<>());
         }

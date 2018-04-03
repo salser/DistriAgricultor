@@ -79,8 +79,8 @@ public class Manejador extends Thread {
                     toreturn = this.data.topicos.toString();
                     dos.writeUTF(toreturn);
                     received = dis.readUTF();
-                    List<Socket> act = data.top_usu.get(received);
-                    act.add(s);
+                    List<String> act = data.top_usu.get(received);
+                    act.add(actual);
                     this.data.top_usu.remove(received);
                     this.data.top_usu.put(received, act);
                     //System.out.println("Data: " + this.data.getTop_usu());
@@ -105,14 +105,14 @@ public class Manejador extends Thread {
                     toreturn = "Estas son tus noticias...";
                     dos.writeUTF(toreturn);
                     //System.out.println("YO SOY:" + this.s.toString());
-                    List<Socket> u1 = this.data.top_usu.get("Clima");
-                    List<Socket> u2 = this.data.top_usu.get("Productos");
-                    List<Socket> u3 = this.data.top_usu.get("Insumos");
-                    List<Socket> u4 = this.data.top_usu.get("Precios");
+                    List<String> u1 = this.data.top_usu.get("Clima");
+                    List<String> u2 = this.data.top_usu.get("Productos");
+                    List<String> u3 = this.data.top_usu.get("Insumos");
+                    List<String> u4 = this.data.top_usu.get("Precios");
                     boolean encontrado = false;
-                    for (Socket i : u1) {
+                    for (String i : u1) {
                         System.out.println("u1" + i);
-                        if (i.toString().equalsIgnoreCase(this.actual)) {
+                        if (i.toString().equalsIgnoreCase(actual)) {
 
                             //for(Informacion in : this.data.getTop_info().get("Clima")){
                             //this.vistos.put(in, false);
@@ -128,9 +128,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (Socket i : u2) {
+                    for (String i : u2) {
                         System.out.println("u2" + i);
-                        if (i.toString().equalsIgnoreCase(this.actual)) {
+                        if (i.toString().equalsIgnoreCase(actual)) {
                             toreturn = "" + this.data.getTop_info().get("Productos");
                             encontrado = true;
                             dos.writeUTF(toreturn);
@@ -142,9 +142,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (Socket i : u3) {
+                    for (String i : u3) {
                         System.out.println("u3" + i);
-                        if (i.toString().equalsIgnoreCase(this.actual)) {
+                        if (i.toString().equalsIgnoreCase(actual)) {
                             toreturn = "" + this.data.getTop_info().get("Insumos");
                             encontrado = true;
                             dos.writeUTF(toreturn);
@@ -156,9 +156,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (Socket i : u4) {
+                    for (String i : u4) {
                         System.out.println("u4" + i);
-                        if (i.toString().equalsIgnoreCase(this.actual)) {
+                        if (i.toString().equalsIgnoreCase(actual)) {
                             toreturn = "" + this.data.getTop_info().get("Precios");
                             encontrado = true;
                             dos.writeUTF(toreturn);
@@ -194,8 +194,8 @@ public class Manejador extends Thread {
                             if (ubicacion.toLowerCase().contains(topic.toLowerCase())
                                     || tipo.toLowerCase().contains(topic.toLowerCase())
                                     || tam.toLowerCase().contains(topic.toLowerCase())) {
-                                List<Socket> act = data.top_usu.get(topic);
-                                act.add(s);
+                                List<String> act = data.top_usu.get(topic);
+                                act.add(actual);
                                 this.data.top_usu.remove(topic);
                                 this.data.top_usu.put(topic, act);
                             }

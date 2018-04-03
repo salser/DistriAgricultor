@@ -183,6 +183,7 @@ public class Client {
         String received3 = cliente.dis.readUTF();
         String received4 = cliente.dis.readUTF();
         System.out.println("-" + received);
+        System.out.println("Los tópicos son los siguientes: ");
         System.out.println("" + received1 + received2 + received3 + received4);
 
         //System.out.println("Los tópicos son los siguientes: ");
@@ -207,6 +208,10 @@ public class Client {
         cliente.dis.readUTF();
         cliente.dos.writeUTF(msj);
         String received = cliente.dis.readUTF();
+        if(received.contains("servidor")){
+            received = cliente.dis.readUTF();
+        }
+        
         System.out.println("Los tópicos son los siguientes: ");
         System.out.println(received);
         System.out.println("Escoja uno escribalo textualmente: ");

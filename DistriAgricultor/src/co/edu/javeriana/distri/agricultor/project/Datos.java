@@ -21,14 +21,14 @@ public class Datos {
 
     public List<String> topicos;
     public Map<String, String> usuarios;
-    public Map<String, List<Socket>> top_usu;
+    public Map<String, List<String>> top_usu;
     public Map<String, List<Informacion>> top_info;
     public Map<Socket, List<Cultivo>> cultivos_usu;
 
     public Datos() {
         this.topicos = new ArrayList<>();
         this.usuarios = new HashMap<String, String> ();
-        this.top_usu = new HashMap<String, List<Socket>>();
+        this.top_usu = new HashMap<String, List<String>>();
         this.top_info = new HashMap<String, List<Informacion>>();
         this.cultivos_usu = new HashMap<Socket, List<Cultivo>>();
         
@@ -57,11 +57,11 @@ public class Datos {
         this.usuarios = usuarios;
     }
 
-    public Map<String, List<Socket>> getTop_usu() {
+    public Map<String, List<String>> getTop_usu() {
         return top_usu;
     }
 
-    public void setTop_usu(Map<String, List<Socket>> top_usu) {
+    public void setTop_usu(Map<String, List<String>> top_usu) {
         this.top_usu = top_usu;
     }
 
