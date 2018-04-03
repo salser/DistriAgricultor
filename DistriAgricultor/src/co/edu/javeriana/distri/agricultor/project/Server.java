@@ -1,6 +1,7 @@
-
+import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import co.edu.javeriana.distri.agricultor.project.Datos;
 import co.edu.javeriana.distri.agricultor.project.Manejador;
+import co.edu.javeriana.distri.agricultor.utils.LeerArchivo;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -16,6 +17,17 @@ public class Server {
         ServerSocket ss = new ServerSocket(5056);
         List<String> clientes = new ArrayList<>();
         Datos dat = new Datos();
+        //Quemando topicos
+        List<Informacion> topics = new ArrayList<>();
+        
+        dat.top_info.put("Clima", topics);
+        dat.top_info.put("Productos", topics);
+        dat.top_info.put("Insumos", topics);
+        dat.top_info.put("Precios", topics);
+        
+        Thread hilo = new LeerArchivo(dat);
+        hilo.start();
+        
         List to = new ArrayList();
         to.add("topico1");
         to.add("topico2");
@@ -47,6 +59,9 @@ public class Server {
                 
                 System.out.println("Topicos del servidor");
                 System.out.println(dat.topicos.toString());
+                //System.out.println(dat.top_info.toString());
+                
+                
             } catch (Exception e) {
                 s.close();
                 e.printStackTrace();

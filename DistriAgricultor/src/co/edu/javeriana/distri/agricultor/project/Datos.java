@@ -68,4 +68,9 @@ public class Datos {
         this.top_info = top_info;
     }
 
+    @Override
+    public String toString() {
+        return "Datos{" + "topicos=" + topicos + ", usuarios=" + usuarios + ", top_usu=" + top_usu + ", top_info=" + top_info + '}';
+    }
+
 }
