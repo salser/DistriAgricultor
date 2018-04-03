@@ -20,22 +20,23 @@ import java.util.Map;
 public class Datos {
 
     public List<String> topicos;
-    public List<Socket> usuarios;
+    public Map<String, String> usuarios;
     public Map<String, List<Socket>> top_usu;
     public Map<String, List<Informacion>> top_info;
     public Map<Socket, List<Cultivo>> cultivos_usu;
 
     public Datos() {
         this.topicos = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
+        this.usuarios = new HashMap<String, String> ();
         this.top_usu = new HashMap<String, List<Socket>>();
         this.top_info = new HashMap<String, List<Informacion>>();
         this.cultivos_usu = new HashMap<Socket, List<Cultivo>>();
+        
     }
 
-    public Datos(List<String> topicos, List<String> usuarios, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
+    public Datos(List<String> topicos, Map<String, String>  usuarios, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
         this.topicos = topicos;
-        this.usuarios = new ArrayList<>();
+        this.usuarios = usuarios;
         this.top_info = top_info;
         this.cultivos_usu = new HashMap<Socket, List<Cultivo>>();
     }
@@ -48,11 +49,11 @@ public class Datos {
         this.topicos = topicos;
     }
 
-    public List<Socket> getUsuarios() {
+    public Map<String, String>  getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<Socket> usuarios) {
+    public void setUsuarios(Map<String, String>  usuarios) {
         this.usuarios = usuarios;
     }
 

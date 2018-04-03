@@ -57,7 +57,7 @@ public class Server {
 
                 System.out.println("Clientes" + clientes.toString());
                 System.out.println("A new client is connected : " + s);
-                dat.getUsuarios().add(s);
+                //dat.getUsuarios().add(s);
                 dat.getCultivos_usu().put(s, new ArrayList<>());
 
                 // obtaining input and out streams

@@ -11,8 +11,6 @@ package co.edu.javeriana.distri.agricultor.project;
  */
 import co.edu.javeriana.distri.agricultor.modelo.Agricultor;
 import co.edu.javeriana.distri.agricultor.modelo.Cultivo;
-import static co.edu.javeriana.distri.agricultor.project.Cliente.HOST;
-import static co.edu.javeriana.distri.agricultor.project.Cliente.PORT;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -30,12 +28,13 @@ public class Client {
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
     private static final String NOTICIAS = "noticias";
- private static final String CULTIVO_ADD = "cultivoAdd";
+    private static final String CULTIVO_ADD = "cultivoAdd";
 
     private static InetAddress ip;
     private static Socket s;
     private static DataInputStream dis;
     private static DataOutputStream dos;
+    private static Agricultor agricultor;
 
     public Client() {
         try {
@@ -59,6 +58,7 @@ public class Client {
             // the following loop performs the exchange of
             // information between client and client handler
             Client cliente = new Client();
+            
             startMenu(cliente);
 
             // closing resources
@@ -71,12 +71,19 @@ public class Client {
     }
 
     private static void startMenu(Client cliente) throws IOException {
-        printMenu();
+        //printMenu();
         Scanner input = new Scanner(System.in);
-        int opcion = input.nextInt();
+        int opcion = 0;
         while (5 != opcion) {
+            //cliente.dis.readUTF();
             switch (opcion) {
+                case 0:
+                    agricultor = registro(cliente);
+                    printMenu();
+                    opcion = input.nextInt();
+                    break;
                 case 1:
+                    
                     subscribeTopics(cliente);
                     printMenu();
                     opcion = input.nextInt();
@@ -88,7 +95,7 @@ public class Client {
                     break;
                 case 3: // Ver estadisticas de los tópicos subscrito
                     verNoticias(cliente);
-			printMenu();
+                    printMenu();
                     opcion = input.nextInt();
                     break;
                 case 4:
@@ -96,7 +103,12 @@ public class Client {
                     printMenu();
                     opcion = input.nextInt();
                     break;
+                case 5:
+                    System.out.println("Hasta luego: " + s.toString());
+                    break;
+
                 default:
+                    System.out.println("No es una opción");
                     System.out.println("No es una opción");
                     printMenu();
                     opcion = input.nextInt();
@@ -113,25 +125,45 @@ public class Client {
         System.out.println("5. Salir");
     }
 
-    private static void registro() throws IOException {
+    private static Agricultor registro(Client cliente) throws IOException {
         Scanner input = new Scanner(System.in);
+        cliente.dos.writeUTF("registro");
+        System.out.println("BIENVENIDO AL SISTEMA AGROCONSEJERO");
+        System.err.println("Si usted es nuevo, digite 'n', de lo contrario digitre 'c' ");
+        String validacion = input.nextLine();
+        if(validacion.equalsIgnoreCase("c")){
+            cliente.dos.writeUTF("Antiguo");
+        }else{
+            cliente.dos.writeUTF("nuevo");
+        }
         System.out.println("Ingrese su cedula:");
         String id = input.nextLine();
+        cliente.dos.writeUTF(id);
 
         //Validar usuario
         Agricultor a = new Agricultor();
         a.setId(Long.parseLong(id));
         System.out.println("Ingrese su nombre:");
         a.setNombre(input.nextLine());
+        
+       
+        
+        return a;
 
     }
 
     private static void subscribeTopics(Client cliente) throws IOException {
+        //cliente.dis.readUTF();
         String msj = TOPICS;
         Scanner scn = new Scanner(System.in);
         cliente.dos.writeUTF(msj);
-        cliente.dis.readUTF();
         String received = cliente.dis.readUTF();
+        if(received.contains("servidor")){
+            received = cliente.dis.readUTF();
+        }
+        if(received.contains("servidor")){
+            received = cliente.dis.readUTF();
+        }
         System.out.println("Los tópicos son los siguientes: ");
         System.out.println(received);
         msj = scn.nextLine();
@@ -139,17 +171,19 @@ public class Client {
     }
 
     private static void verNoticias(Client cliente) throws IOException {
+        System.out.println("NOTCIAS");
         String msj = NOTICIAS;
         Scanner scn = new Scanner(System.in);
         cliente.dos.writeUTF(msj);
         cliente.dis.readUTF();
+        
         String received = cliente.dis.readUTF();
-        String received1= cliente.dis.readUTF();
-        String received2= cliente.dis.readUTF();
-        String received3= cliente.dis.readUTF();
-        String received4= cliente.dis.readUTF();
-        System.out.println("-"+received);
-        System.out.println("" +  received1+received2+received3+received4);
+        String received1 = cliente.dis.readUTF();
+        String received2 = cliente.dis.readUTF();
+        String received3 = cliente.dis.readUTF();
+        String received4 = cliente.dis.readUTF();
+        System.out.println("-" + received);
+        System.out.println("" + received1 + received2 + received3 + received4);
 
         //System.out.println("Los tópicos son los siguientes: ");
         //System.out.println(received);
@@ -167,7 +201,6 @@ public class Client {
         cliente.clientSocket.send(sendPacket);
 
     }*/
-
     private static void dataCreate(Client cliente) throws UnknownHostException, IOException {
         String msj = DATA_CREATE;
         Scanner input = new Scanner(System.in);
