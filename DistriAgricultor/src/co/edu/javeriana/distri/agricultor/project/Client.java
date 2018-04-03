@@ -29,6 +29,7 @@ public class Client {
     private static final int RECIEVE_DATA = 1024;
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
+    private static final String NOTICIAS = "noticias";
 
     private static InetAddress ip;
     private static Socket s;
@@ -85,6 +86,7 @@ public class Client {
                     opcion = input.nextInt();
                     break;
                 case 3: // Ver estadisticas de los tópicos subscrito
+                    verNoticias(cliente);
                     printMenu();
                     opcion = input.nextInt();
                     break;
@@ -99,9 +101,11 @@ public class Client {
 
     private static void printMenu() {
         System.out.println("1. Subscribirse");
-        System.out.println("2. Agregar Cultivo");
-        System.out.println("3. Ver estadisticas");
-        System.out.println("4. Salir");
+        System.out.println("2. Agregar Noticia");
+        System.out.println("3. Ver Noticias");
+        System.out.println("4. Agregar Cultivo");
+        System.out.println("5. Salir");
+
     }
 
     private static void registro() throws IOException {
@@ -136,6 +140,25 @@ public class Client {
         System.out.println(received);
         msj = scn.nextLine();
         dos.writeUTF(msj);
+    }
+
+    private static void verNoticias(Client cliente) throws IOException {
+        String msj = NOTICIAS;
+        Scanner scn = new Scanner(System.in);
+        cliente.dos.writeUTF(msj);
+        cliente.dis.readUTF();
+        String received = cliente.dis.readUTF();
+        String received1= cliente.dis.readUTF();
+        String received2= cliente.dis.readUTF();
+        String received3= cliente.dis.readUTF();
+        String received4= cliente.dis.readUTF();
+        System.out.println("-"+received);
+        System.out.println("" +  received1+received2+received3+received4);
+
+        //System.out.println("Los tópicos son los siguientes: ");
+        //System.out.println(received);
+        // msj = scn.nextLine();
+        //dos.writeUTF(msj);
     }
 
     /*private static void conectar(String id) throws IOException {
