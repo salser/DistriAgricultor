@@ -11,12 +11,12 @@ package co.edu.javeriana.distri.agricultor.modelo;
  */
 public class Cultivo {
     
-    private long idAgricultor;
+    private String idAgricultor;
     private String ubicacion;
     private String tipoCultivo;
     private String tamCultivo;
 
-    public Cultivo(long idAgricultor, String ubicacion, String tipoCultivo, String tamCultivo) {
+    public Cultivo(String idAgricultor, String ubicacion, String tipoCultivo, String tamCultivo) {
         this.idAgricultor = idAgricultor;
         this.ubicacion = ubicacion;
         this.tipoCultivo = tipoCultivo;
@@ -26,13 +26,14 @@ public class Cultivo {
     public Cultivo() {
     }
 
-    public long getIdAgricultor() {
+    public String getIdAgricultor() {
         return idAgricultor;
     }
 
-    public void setIdAgricultor(long idAgricultor) {
+    public void setIdAgricultor(String idAgricultor) {
         this.idAgricultor = idAgricultor;
     }
+
 
     public String getUbicacion() {
         return ubicacion;

@@ -5,7 +5,6 @@ import co.edu.javeriana.distri.agricultor.project.Datos;
 import co.edu.javeriana.distri.agricultor.project.Manejador;
 import co.edu.javeriana.distri.agricultor.utils.LeerArchivo;
 import java.io.*;
-import java.text.*;
 import java.util.*;
 import java.net.*;
 
@@ -14,12 +13,6 @@ public class Server {
 
     private static final int PORT = 5056;
     private static final String HOST = "127.0.0.1";
-    private static final int SEND_DATA = 1024;
-    private static final int RECIEVE_DATA = 1024;
-    private static final String TOPICS = "topics";
-    private static final String DATA_CREATE = "dataCreate";
-    private static final String TOPIC1 = "topic1";
-    private static final String TOPIC2 = "topic2";
     private static final String CLIMA = "Clima";
     private static final String PRODUCTOS = "Productos";
     private static final String INSUMOS = "Insumos";
@@ -29,7 +22,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         // server is listening on port 5056
-        ServerSocket ss = new ServerSocket(5056);
+        ServerSocket ss = new ServerSocket(PORT);
         List<String> clientes = new ArrayList<>();
         Datos dat = new Datos();
         //Quemando topicos
@@ -41,7 +34,7 @@ public class Server {
         topicsAux.add(INSUMOS);
         topicsAux.add(PRECIOS);
         dat.setTopicos(topicsAux);
-        Map<String, List<String>> top_cli = new HashMap<String, List<String>>();
+        Map<String, List<Socket>> top_cli = new HashMap<String, List<Socket>>();
         for (String topic : topicsAux) {
             top_cli.put(topic, new ArrayList<>());
         }
@@ -65,6 +58,7 @@ public class Server {
                 System.out.println("Clientes" + clientes.toString());
                 System.out.println("A new client is connected : " + s);
                 dat.getUsuarios().add(s);
+                dat.getCultivos_usu().put(s, new ArrayList<>());
 
                 // obtaining input and out streams
                 DataInputStream dis = new DataInputStream(s.getInputStream());

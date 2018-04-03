@@ -5,6 +5,7 @@
  */
 package co.edu.javeriana.distri.agricultor.project;
 
+import co.edu.javeriana.distri.agricultor.modelo.Cultivo;
 import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -24,11 +26,10 @@ public class Manejador extends Thread {
 
     private static final int PORT = 5056;
     private static final String HOST = "127.0.0.1";
-    private static final int SEND_DATA = 1024;
-    private static final int RECIEVE_DATA = 1024;
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
-    private static final String NOTICIAS = "noticias";
+    private static final String CULTIVO_ADD = "cultivoAdd";
+private static final String NOTICIAS = "noticias";
 
     final DataInputStream dis;
     final DataOutputStream dos;
@@ -63,8 +64,8 @@ public class Manejador extends Thread {
                     toreturn = this.data.topicos.toString();
                     dos.writeUTF(toreturn);
                     received = dis.readUTF();
-                    List<String> act = data.top_usu.get(received);
-                    act.add(s.toString());
+                    List<Socket> act = data.top_usu.get(received);
+                    act.add(s);
                     this.data.top_usu.remove(received);
                     this.data.top_usu.put(received, act);
                     System.out.println("Data: " + this.data.getTop_usu());
@@ -89,14 +90,14 @@ public class Manejador extends Thread {
                     toreturn = "Estas son tus noticias...";
                     dos.writeUTF(toreturn);
                     System.out.println("YO SOY:" + this.s.toString());
-                    List<String> u1 = this.data.top_usu.get("Clima");
-                    List<String> u2 = this.data.top_usu.get("Productos");
-                    List<String> u3 = this.data.top_usu.get("Insumos");
-                    List<String> u4 = this.data.top_usu.get("Precios");
+                    List<Socket> u1 = this.data.top_usu.get("Clima");
+                    List<Socket> u2 = this.data.top_usu.get("Productos");
+                    List<Socket> u3 = this.data.top_usu.get("Insumos");
+                    List<Socket> u4 = this.data.top_usu.get("Precios");
                     boolean encontrado = false;
-                    for (String i : u1) {
+                    for (Socket i : u1) {
                         System.out.println("u1"+i);
-                        if(i.equalsIgnoreCase(this.s.toString())){
+                        if(i.equals(this.s)){
                         toreturn = "esto en el topico 1";
                         encontrado = true;
                         dos.writeUTF(toreturn);
@@ -108,9 +109,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (String i : u2) {
+                    for (Socket i : u2) {
                         System.out.println("u2"+i);
-                        if(i.equalsIgnoreCase(this.s.toString())){
+                        if(i.equals(this.s)){
                         toreturn = "esto en el topico 2";
                         encontrado = true;
                         dos.writeUTF(toreturn);
@@ -122,9 +123,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (String i : u3) {
+                    for (Socket i : u3) {
                         System.out.println("u3"+i);
-                        if(i.equalsIgnoreCase(this.s.toString())){
+                        if(i.equals(this.s)){
                         toreturn = "esto en el topico 3";
                         encontrado = true;
                         dos.writeUTF(toreturn);
@@ -136,9 +137,9 @@ public class Manejador extends Thread {
                         dos.writeUTF(toreturn);
                     }
                     encontrado = false;
-                    for (String i : u4) {
+                    for (Socket i : u4) {
                         System.out.println("u4"+i);
-                        if(i.equalsIgnoreCase(this.s.toString())){
+                        if(i.equals(this.s)){
                         toreturn = "esto en el topico 4";
                         encontrado = true;
                         dos.writeUTF(toreturn);
@@ -151,7 +152,37 @@ public class Manejador extends Thread {
                     }
                     encontrado = false;
 
-                } else {
+                } else if (received.contains(CULTIVO_ADD)) {
+                    received = dis.readUTF();
+                    StringTokenizer st = new StringTokenizer(received, "-");
+                    String ubicacion = st.nextToken().trim();
+                    String tipo = st.nextToken().trim();
+                    String tam = st.nextToken().trim();
+                    Cultivo cultivo = new Cultivo(s.getInetAddress().getHostAddress(), ubicacion, tipo, tam);
+                    String topics = "";
+                    for (String topic : this.data.getTopicos()) {
+                        if (ubicacion.toLowerCase().contains(topic.toLowerCase())
+                                || tipo.toLowerCase().contains(topic.toLowerCase())
+                                || tam.toLowerCase().contains(topic.toLowerCase())) {
+                            topics = topic + " ";
+                        }
+                    }
+                    this.data.getCultivos_usu().get(s).add(cultivo);
+                    dos.writeUTF(topics);
+                    received = dis.readUTF();
+                    if (received.contains("y")) {
+                        for (String topic : this.data.getTopicos()) {
+                            if (ubicacion.toLowerCase().contains(topic.toLowerCase())
+                                    || tipo.toLowerCase().contains(topic.toLowerCase())
+                                    || tam.toLowerCase().contains(topic.toLowerCase())) {
+                                List<Socket> act = data.top_usu.get(topic);
+                                act.add(s);
+                                this.data.top_usu.remove(topic);
+                                this.data.top_usu.put(topic, act);
+                            }
+                        }
+                    }
+                }else {
                     dos.writeUTF("Invalid input");
                     break;
                 }
@@ -160,7 +191,5 @@ public class Manejador extends Thread {
             }
         }
     }
-
-    
 
 }
