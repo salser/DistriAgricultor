@@ -77,21 +77,21 @@ public class Client {
                 case 1:
                     subscribeTopics(cliente);
                     printMenu();
-                    input.nextInt();
+                    opcion = input.nextInt();
                     break;
                 case 2:
                     dataCreate(cliente);
                     printMenu();
-                    input.nextInt();
+                    opcion = input.nextInt();
                     break;
                 case 3: // Ver estadisticas de los tópicos subscrito
                     printMenu();
-                    input.nextInt();
+                    opcion = input.nextInt();
                     break;
                 default:
                     System.out.println("No es una opción");
                     printMenu();
-                    input.nextInt();
+                    opcion = input.nextInt();
                     break;
             }
         }
@@ -152,6 +152,7 @@ public class Client {
     private static void dataCreate(Client cliente) throws UnknownHostException, IOException {
         String msj = DATA_CREATE;
         Scanner input = new Scanner(System.in);
+        cliente.dis.readUTF();
         cliente.dos.writeUTF(msj);
         String received = cliente.dis.readUTF();
         System.out.println("Los tópicos son los siguientes: ");

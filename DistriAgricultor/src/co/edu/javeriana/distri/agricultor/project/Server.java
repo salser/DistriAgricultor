@@ -1,6 +1,9 @@
+package co.edu.javeriana.distri.agricultor.project;
 
+import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import co.edu.javeriana.distri.agricultor.project.Datos;
 import co.edu.javeriana.distri.agricultor.project.Manejador;
+import co.edu.javeriana.distri.agricultor.utils.LeerArchivo;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -17,25 +20,39 @@ public class Server {
     private static final String DATA_CREATE = "dataCreate";
     private static final String TOPIC1 = "topic1";
     private static final String TOPIC2 = "topic2";
+    private static final String CLIMA = "Clima";
+    private static final String PRODUCTOS = "Productos";
+    private static final String INSUMOS = "Insumos";
+    private static final String PRECIOS = "Precios";
 
     public List<String> Topicos;
 
     public static void main(String[] args) throws IOException {
         // server is listening on port 5056
-        ServerSocket ss = new ServerSocket(PORT);
+        ServerSocket ss = new ServerSocket(5056);
         List<String> clientes = new ArrayList<>();
         Datos dat = new Datos();
-        List to = new ArrayList();
-        to.add(TOPIC1);
-        to.add(TOPIC2);
-        dat.setTopicos(to);
+        //Quemando topicos
+        
+
+        List<String> topicsAux = new ArrayList<String>();
+        topicsAux.add(CLIMA);
+        topicsAux.add(PRODUCTOS);
+        topicsAux.add(INSUMOS);
+        topicsAux.add(PRECIOS);
+        dat.setTopicos(topicsAux);
         Map<String, List<String>> top_cli = new HashMap<String, List<String>>();
-        for (String topic : dat.getTopicos()) {
+        for (String topic : topicsAux) {
             top_cli.put(topic, new ArrayList<>());
         }
         dat.setTop_usu(top_cli);
-        dat.setUsuarios(clientes);
-        // TODO set information of every topic
+        dat.top_info.put(CLIMA, new ArrayList<>());
+        dat.top_info.put(PRODUCTOS, new ArrayList<>());
+        dat.top_info.put(INSUMOS, new ArrayList<>());
+        dat.top_info.put(PRECIOS, new ArrayList<>());
+
+        /*Thread hilo = new LeerArchivo(dat);
+        hilo.start();*/
         // running infinite loop for getting
         // client request
         while (true) {
@@ -44,11 +61,11 @@ public class Server {
             try {
                 // socket object to receive incoming client requests
                 s = ss.accept();
-                
+
                 System.out.println("Clientes" + clientes.toString());
                 System.out.println("A new client is connected : " + s);
-                dat.getUsuarios().add(s.toString());
-                
+                dat.getUsuarios().add(s);
+
                 // obtaining input and out streams
                 DataInputStream dis = new DataInputStream(s.getInputStream());
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream());

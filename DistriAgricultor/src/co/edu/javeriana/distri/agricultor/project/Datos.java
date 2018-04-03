@@ -6,6 +6,7 @@
 package co.edu.javeriana.distri.agricultor.project;
 
 import co.edu.javeriana.distri.agricultor.modelo.Informacion;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class Datos {
 
     public List<String> topicos;
-    public List<String> usuarios;
+    public List<Socket> usuarios;
     public Map<String, List<String>> top_usu;
     public Map<String, List<Informacion>> top_info;
 
@@ -29,9 +30,9 @@ public class Datos {
         this.top_info = new HashMap<String, List<Informacion>>();
     }
 
-    public Datos(List<String> topicos, List<String> usuarios, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
+    public Datos(List<String> topicos, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
         this.topicos = topicos;
-        this.usuarios = usuarios;
+        this.usuarios = new ArrayList<>();
         this.top_usu = top_usu;
         this.top_info = top_info;
     }
@@ -44,11 +45,11 @@ public class Datos {
         this.topicos = topicos;
     }
 
-    public List<String> getUsuarios() {
+    public List<Socket> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<String> usuarios) {
+    public void setUsuarios(List<Socket> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -66,6 +67,11 @@ public class Datos {
 
     public void setTop_info(Map<String, List<Informacion>> top_info) {
         this.top_info = top_info;
+    }
+
+    @Override
+    public String toString() {
+        return "Datos{" + "topicos=" + topicos + ", usuarios=" + usuarios + ", top_usu=" + top_usu + ", top_info=" + top_info + '}';
     }
 
 }

@@ -60,7 +60,7 @@ public class Servidor {
                 DatagramPacket paqueteRecibe = new DatagramPacket(new byte[RECIEVE_DATA], RECIEVE_DATA);
                 
                 // LEER ARCHIVO DE INFORMACION
-                (new Thread(new LeerArchivo())).start();
+                //(new Thread(new LeerArchivo())).start();
                 
                 serverSocket.receive(paqueteRecibe);
                 byte[] receiveData = new byte[RECIEVE_DATA];

@@ -68,5 +68,10 @@ public class Informacion {
     public void setInformacion(String informacion) {
         this.informacion = informacion;
     }
+
+    @Override
+    public String toString() {
+        return "Informacion{" + "fechaInfo=" + fechaInfo + ", tipoInfo=" + tipoInfo + ", cultivo=" + cultivo + ", informacion=" + informacion + "\n}";
+    }
     
 }

@@ -5,6 +5,7 @@
  */
 package co.edu.javeriana.distri.agricultor.project;
 
+import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -55,15 +56,16 @@ public class Manejador extends Thread {
                 // receive the answer from client
                 received = dis.readUTF();
                 System.out.println("received: " + received);
-                if (received.contains(TOPICS)){
+                if (received.contains(TOPICS)) {
                     System.out.println("in topics");
                     toreturn = this.data.topicos.toString();
                     dos.writeUTF(toreturn);
                     received = dis.readUTF();
                     List<String> act = data.top_usu.get(received);
                     act.add(s.toString());
+                    this.data.top_usu.remove(received);
                     this.data.top_usu.put(received, act);
-                    // System.out.println("Data: " + this.data.getUsuarios());
+                    System.out.println("Data: " + this.data.getTop_usu());
                 } else if (received.contains(DATA_CREATE)) {
                     System.out.println("in creation");
                     toreturn = this.data.topicos.toString();
@@ -75,36 +77,18 @@ public class Manejador extends Thread {
                     String fecha = st.nextToken().trim();
                     String tipo = st.nextToken().trim();
                     String info = st.nextToken();
-                    // TODO AGREGAR DATO AL TOPICO
+                    System.out.println("Agregar al tópico: " + topic + " info: " + cultivo + ", " + fecha + ", " + info);
+                    Informacion informacion = new Informacion(tipo, cultivo, info);
+                    informacion.setFechaInfo(fecha);
+                    this.data.getTop_info().get(topic).add(informacion);
+                    System.out.println("lista de top_info end: " + this.data.getTop_info());
                 } else {
                     dos.writeUTF("Invalid input");
                     break;
                 }
-                if (received.equals("Exit")) {
-                    System.out.println("Client " + this.s + " sends exit...");
-                    System.out.println("Closing this connection.");
-                    this.s.close();
-                    System.out.println("Connection closed");
-                    break;
-                }
-
-                // creating Date object
-                Date date = new Date();
-
-                // write on output stream based on the
-                // answer from the client
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        try {
-            // closing resources
-            this.dis.close();
-            this.dos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
