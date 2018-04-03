@@ -80,7 +80,7 @@ public class LeerArchivo extends Thread {
             while (input.hasNext()) {
                 System.out.println("imp primero" + imp(this.dat.top_info));
                 Informacion info = new Informacion();
-                Thread.sleep(1000);
+                Thread.sleep(5000);
                 info.setFechaInfo(input.next());
                 info.setTipoInfo(input.next());
                 System.out.println("tipoinfo: " + info.getTipoInfo());
@@ -99,12 +99,17 @@ public class LeerArchivo extends Thread {
                     System.out.println("3");
                     this.dat.top_info.put("Productos", temp);
                 } else if (info.getTipoInfo().toString().contains("Clima")) {
-                    System.out.println("1");
                     List<Informacion> temp = this.dat.top_info.get("Clima");
-                    System.out.println("2");
                     temp.add(info);
-                    System.out.println("3");
                     this.dat.top_info.put("Clima", temp);
+                } else if (info.getTipoInfo().toString().contains("Insumos")) {
+                    List<Informacion> temp = this.dat.top_info.get("Insumos");
+                    temp.add(info);
+                    this.dat.top_info.put("Insumos", temp);
+                } else if (info.getTipoInfo().toString().contains("Precios")) {
+                    List<Informacion> temp = this.dat.top_info.get("Precios");
+                    temp.add(info);
+                    this.dat.top_info.put("Precios", temp);
                 }
                 System.out.println("imp" + (this.dat.top_info));
 

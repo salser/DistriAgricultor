@@ -51,8 +51,8 @@ public class Server {
         dat.top_info.put(INSUMOS, new ArrayList<>());
         dat.top_info.put(PRECIOS, new ArrayList<>());
 
-        /*Thread hilo = new LeerArchivo(dat);
-        hilo.start();*/
+        Thread hilo = new LeerArchivo(dat);
+        hilo.start();
         // running infinite loop for getting
         // client request
         while (true) {

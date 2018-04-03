@@ -28,11 +28,13 @@ public class Manejador extends Thread {
     private static final int RECIEVE_DATA = 1024;
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
+    private static final String NOTICIAS = "noticias";
 
     final DataInputStream dis;
     final DataOutputStream dos;
     final Socket s;
     public final Datos data;
+    public int vistos;
 
     // Constructor
     public Manejador(Socket s, DataInputStream dis, DataOutputStream dos, Datos data) {
@@ -82,6 +84,73 @@ public class Manejador extends Thread {
                     informacion.setFechaInfo(fecha);
                     this.data.getTop_info().get(topic).add(informacion);
                     System.out.println("lista de top_info end: " + this.data.getTop_info());
+                } else if (received.contains(NOTICIAS)) {
+                    System.out.println("Quiere ver noticias");
+                    toreturn = "Estas son tus noticias...";
+                    dos.writeUTF(toreturn);
+                    System.out.println("YO SOY:" + this.s.toString());
+                    List<String> u1 = this.data.top_usu.get("Clima");
+                    List<String> u2 = this.data.top_usu.get("Productos");
+                    List<String> u3 = this.data.top_usu.get("Insumos");
+                    List<String> u4 = this.data.top_usu.get("Precios");
+                    boolean encontrado = false;
+                    for (String i : u1) {
+                        System.out.println("u1"+i);
+                        if(i.equalsIgnoreCase(this.s.toString())){
+                        toreturn = "esto en el topico 1";
+                        encontrado = true;
+                        dos.writeUTF(toreturn);
+                        break;
+                        }
+                    }
+                    if (encontrado ==false){
+                        toreturn = "";
+                        dos.writeUTF(toreturn);
+                    }
+                    encontrado = false;
+                    for (String i : u2) {
+                        System.out.println("u2"+i);
+                        if(i.equalsIgnoreCase(this.s.toString())){
+                        toreturn = "esto en el topico 2";
+                        encontrado = true;
+                        dos.writeUTF(toreturn);
+                        break;
+                        }
+                    }
+                    if (encontrado ==false){
+                        toreturn = "";
+                        dos.writeUTF(toreturn);
+                    }
+                    encontrado = false;
+                    for (String i : u3) {
+                        System.out.println("u3"+i);
+                        if(i.equalsIgnoreCase(this.s.toString())){
+                        toreturn = "esto en el topico 3";
+                        encontrado = true;
+                        dos.writeUTF(toreturn);
+                        break;
+                        }
+                    }
+                    if (encontrado ==false){
+                        toreturn = "";
+                        dos.writeUTF(toreturn);
+                    }
+                    encontrado = false;
+                    for (String i : u4) {
+                        System.out.println("u4"+i);
+                        if(i.equalsIgnoreCase(this.s.toString())){
+                        toreturn = "esto en el topico 4";
+                        encontrado = true;
+                        dos.writeUTF(toreturn);
+                        break;
+                        }
+                    }
+                    if (encontrado ==false){
+                        toreturn = "";
+                        dos.writeUTF(toreturn);
+                    }
+                    encontrado = false;
+
                 } else {
                     dos.writeUTF("Invalid input");
                     break;
@@ -91,5 +160,7 @@ public class Manejador extends Thread {
             }
         }
     }
+
+    
 
 }
