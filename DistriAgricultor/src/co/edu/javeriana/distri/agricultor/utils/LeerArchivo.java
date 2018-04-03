@@ -14,9 +14,9 @@ import java.util.*;
  * @author Carlos E Quimbay
  * 
  * para ejecutar hilo desde Main
- * (new Thread(new LeerInformacion())).start();
+ * (new Thread(new LeerArchivo())).start();
  */
-public class LeerArchivo {
+public class LeerArchivo implements Runnable {
 
     private Scanner input;
     private Sincronizar sync;

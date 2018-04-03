@@ -17,9 +17,9 @@ import java.util.*;
  * @author Carlos E Quimbay
  * 
  * para ejecutar hilo desde Main
- * (new Thread(new CrearInformacion())).start();
+ * (new Thread(new EscribirArchivo())).start();
  */
-public class EscribirArchivo {
+public class EscribirArchivo implements Runnable {
 
     private Formatter output;
     private FileWriter writer;
