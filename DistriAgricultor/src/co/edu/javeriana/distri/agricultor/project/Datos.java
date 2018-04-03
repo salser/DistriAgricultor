@@ -5,6 +5,7 @@
  */
 package co.edu.javeriana.distri.agricultor.project;
 
+import co.edu.javeriana.distri.agricultor.modelo.Cultivo;
 import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,21 +21,23 @@ public class Datos {
 
     public List<String> topicos;
     public List<Socket> usuarios;
-    public Map<String, List<String>> top_usu;
+    public Map<String, List<Socket>> top_usu;
     public Map<String, List<Informacion>> top_info;
+    public Map<Socket, List<Cultivo>> cultivos_usu;
 
     public Datos() {
         this.topicos = new ArrayList<>();
         this.usuarios = new ArrayList<>();
-        this.top_usu = new HashMap<String, List<String>>();
+        this.top_usu = new HashMap<String, List<Socket>>();
         this.top_info = new HashMap<String, List<Informacion>>();
+        this.cultivos_usu = new HashMap<Socket, List<Cultivo>>();
     }
 
-    public Datos(List<String> topicos, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
+    public Datos(List<String> topicos, List<String> usuarios, Map<String, List<String>> top_usu, Map<String, List<Informacion>> top_info) {
         this.topicos = topicos;
         this.usuarios = new ArrayList<>();
-        this.top_usu = top_usu;
         this.top_info = top_info;
+        this.cultivos_usu = new HashMap<Socket, List<Cultivo>>();
     }
 
     public List<String> getTopicos() {
@@ -53,11 +56,11 @@ public class Datos {
         this.usuarios = usuarios;
     }
 
-    public Map<String, List<String>> getTop_usu() {
+    public Map<String, List<Socket>> getTop_usu() {
         return top_usu;
     }
 
-    public void setTop_usu(Map<String, List<String>> top_usu) {
+    public void setTop_usu(Map<String, List<Socket>> top_usu) {
         this.top_usu = top_usu;
     }
 
@@ -67,6 +70,14 @@ public class Datos {
 
     public void setTop_info(Map<String, List<Informacion>> top_info) {
         this.top_info = top_info;
+    }
+
+    public Map<Socket, List<Cultivo>> getCultivos_usu() {
+        return cultivos_usu;
+    }
+
+    public void setCultivos_usu(Map<Socket, List<Cultivo>> cultivos_usu) {
+        this.cultivos_usu = cultivos_usu;
     }
 
     @Override

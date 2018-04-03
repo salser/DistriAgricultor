@@ -5,6 +5,7 @@
  */
 package co.edu.javeriana.distri.agricultor.project;
 
+import co.edu.javeriana.distri.agricultor.modelo.Cultivo;
 import co.edu.javeriana.distri.agricultor.modelo.Informacion;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -24,10 +26,9 @@ public class Manejador extends Thread {
 
     private static final int PORT = 5056;
     private static final String HOST = "127.0.0.1";
-    private static final int SEND_DATA = 1024;
-    private static final int RECIEVE_DATA = 1024;
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
+    private static final String CULTIVO_ADD = "cultivoAdd";
 
     final DataInputStream dis;
     final DataOutputStream dos;
@@ -61,8 +62,8 @@ public class Manejador extends Thread {
                     toreturn = this.data.topicos.toString();
                     dos.writeUTF(toreturn);
                     received = dis.readUTF();
-                    List<String> act = data.top_usu.get(received);
-                    act.add(s.toString());
+                    List<Socket> act = data.top_usu.get(received);
+                    act.add(s);
                     this.data.top_usu.remove(received);
                     this.data.top_usu.put(received, act);
                     System.out.println("Data: " + this.data.getTop_usu());
@@ -82,6 +83,36 @@ public class Manejador extends Thread {
                     informacion.setFechaInfo(fecha);
                     this.data.getTop_info().get(topic).add(informacion);
                     System.out.println("lista de top_info end: " + this.data.getTop_info());
+                } else if (received.contains(CULTIVO_ADD)) {
+                    received = dis.readUTF();
+                    StringTokenizer st = new StringTokenizer(received, "-");
+                    String ubicacion = st.nextToken().trim();
+                    String tipo = st.nextToken().trim();
+                    String tam = st.nextToken().trim();
+                    Cultivo cultivo = new Cultivo(s.getInetAddress().getHostAddress(), ubicacion, tipo, tam);
+                    String topics = "";
+                    for (String topic : this.data.getTopicos()) {
+                        if (ubicacion.toLowerCase().contains(topic.toLowerCase())
+                                || tipo.toLowerCase().contains(topic.toLowerCase())
+                                || tam.toLowerCase().contains(topic.toLowerCase())) {
+                            topics = topic + " ";
+                        }
+                    }
+                    this.data.getCultivos_usu().get(s).add(cultivo);
+                    dos.writeUTF(topics);
+                    received = dis.readUTF();
+                    if (received.contains("y")) {
+                        for (String topic : this.data.getTopicos()) {
+                            if (ubicacion.toLowerCase().contains(topic.toLowerCase())
+                                    || tipo.toLowerCase().contains(topic.toLowerCase())
+                                    || tam.toLowerCase().contains(topic.toLowerCase())) {
+                                List<Socket> act = data.top_usu.get(topic);
+                                act.add(s);
+                                this.data.top_usu.remove(topic);
+                                this.data.top_usu.put(topic, act);
+                            }
+                        }
+                    }
                 } else {
                     dos.writeUTF("Invalid input");
                     break;

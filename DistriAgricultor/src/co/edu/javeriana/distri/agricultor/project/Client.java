@@ -29,6 +29,7 @@ public class Client {
     private static final int RECIEVE_DATA = 1024;
     private static final String TOPICS = "topics";
     private static final String DATA_CREATE = "dataCreate";
+    private static final String CULTIVO_ADD = "cultivoAdd";
 
     private static InetAddress ip;
     private static Socket s;
@@ -72,7 +73,7 @@ public class Client {
         printMenu();
         Scanner input = new Scanner(System.in);
         int opcion = input.nextInt();
-        while (4 != opcion) {
+        while (5 != opcion) {
             switch (opcion) {
                 case 1:
                     subscribeTopics(cliente);
@@ -88,6 +89,11 @@ public class Client {
                     printMenu();
                     opcion = input.nextInt();
                     break;
+                case 4:
+                    agregarCultivo(cliente);
+                    printMenu();
+                    opcion = input.nextInt();
+                    break;
                 default:
                     System.out.println("No es una opción");
                     printMenu();
@@ -99,9 +105,10 @@ public class Client {
 
     private static void printMenu() {
         System.out.println("1. Subscribirse");
-        System.out.println("2. Agregar Cultivo");
+        System.out.println("2. Agregar Noticia");
         System.out.println("3. Ver estadisticas");
-        System.out.println("4. Salir");
+        System.out.println("4. Agregar Cultivo");
+        System.out.println("5. Salir");
     }
 
     private static void registro() throws IOException {
@@ -114,15 +121,6 @@ public class Client {
         a.setId(Long.parseLong(id));
         System.out.println("Ingrese su nombre:");
         a.setNombre(input.nextLine());
-
-        Cultivo c = new Cultivo();
-        c.setIdAgricultor(Long.parseLong(id));
-        System.out.println("Ingrese la ubicacion de su cultivo:");
-        c.setUbicacion(input.nextLine());
-        System.out.println("Ingrese el tipo de su cultivo:");
-        c.setTipoCultivo(input.nextLine());
-        System.out.println("Ingrese el tamano de su cultivo:");
-        c.setTamCultivo(input.nextLine());
 
     }
 
@@ -148,7 +146,6 @@ public class Client {
         cliente.clientSocket.send(sendPacket);
 
     }*/
-
     private static void dataCreate(Client cliente) throws UnknownHostException, IOException {
         String msj = DATA_CREATE;
         Scanner input = new Scanner(System.in);
@@ -171,4 +168,23 @@ public class Client {
         dos.writeUTF(toSend);
     }
 
+    private static void agregarCultivo(Client cliente) throws IOException {
+        String msj = CULTIVO_ADD;
+        Scanner scn = new Scanner(System.in);
+        cliente.dis.readUTF();
+        cliente.dos.writeUTF(msj);
+        System.out.println("ubicación del cultivo: ");
+        String ubicacion = scn.nextLine();
+        System.out.println("tipo de cultivo: ");
+        String tipo = scn.nextLine();
+        System.out.println("tamaño del cultivo: ");
+        String tamano = scn.nextLine();
+        msj = ubicacion + "-" + tipo + "-" + tamano;
+        cliente.dos.writeUTF(msj);
+        String received = cliente.dis.readUTF();
+        System.out.println("Por cuestiones de filtro se tomo la decición de agregarlo a los siguientes topicos y/n: ");
+        System.out.println(received);
+        msj = scn.nextLine();
+        dos.writeUTF(msj);
+    }
 }

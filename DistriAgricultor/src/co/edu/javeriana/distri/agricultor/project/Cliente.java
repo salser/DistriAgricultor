@@ -95,7 +95,7 @@ public class Cliente {
         a.setNombre(input.nextLine());
 
         Cultivo c = new Cultivo();
-        c.setIdAgricultor(Long.parseLong(id));
+        // c.setIdAgricultor(Long.parseLong(id));
         System.out.println("Ingrese la ubicacion de su cultivo:");
         c.setUbicacion(input.nextLine());
         System.out.println("Ingrese el tipo de su cultivo:");
